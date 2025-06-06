@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { REFRESH_ENDPOINT } from './endpoints';
+import { endpoints } from './endpoints';
 import { showError } from '../utils/toast';
 
 const axiosInstance = axios.create({
@@ -38,17 +38,14 @@ axiosInstance.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    // if token expired
-    if (
-      error.response?.status === 401 &&
-      !originalRequest._retry &&
-      !originalRequest.url.includes('/auth/login') &&
-      !originalRequest.url.includes('/auth/refresh')
-    ) {
+    const isUnauthorized = error.response?.status === 401;
+    const isLoginOrRefresh =
+      originalRequest.url.includes('/auth/login') || originalRequest.url.includes('/auth/refresh');
+
+    if (isUnauthorized && !originalRequest._retry && !isLoginOrRefresh) {
       originalRequest._retry = true;
 
       if (isRefreshing) {
-        // prevent multiple refresh calls
         return new Promise((resolve) => {
           subscribeTokenRefresh(() => resolve(axiosInstance(originalRequest)));
         });
@@ -56,27 +53,19 @@ axiosInstance.interceptors.response.use(
 
       isRefreshing = true;
       try {
-        await axiosInstance.post(REFRESH_ENDPOINT);
+        await axiosInstance.post(endpoints.AUTH.REFRESH_ENDPOINT); // Cookies will handle auth
         isRefreshing = false;
         onRefreshed();
         return axiosInstance(originalRequest);
       } catch (refreshError) {
         isRefreshing = false;
-        showError('Session expired. Please login again.');
+
+        // OPTIONAL: redirect to login here if session is invalid
+        showError('Session expired. Please log in again.');
         return Promise.reject(refreshError);
       }
     }
 
-    // try {
-    //   await axiosInstance.post(REFRESH_ENDPOINT); // request new access token
-    //   isRefreshing = false;
-    //   return axiosInstance(originalRequest); // retry original request
-    // } catch (refreshErr) {
-    //   isRefreshing = false;
-    //   showError('Session expired. Please login again.');
-    //   // Optionally redirect to login
-    //   return Promise.reject(refreshErr);
-    // }
     return Promise.reject(error);
   }
 );

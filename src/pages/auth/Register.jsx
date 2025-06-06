@@ -1,8 +1,8 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useState } from 'react';
-// import axios from '../../api/axiosInstance';
-import { REGISTER_ENDPOINT } from '../../api/endpoints';
+import { Link } from 'react-router-dom';
+import { endpoints } from '../../api/endpoints';
 import { registerSchema } from '../../validations/authSchema';
 
 import AuthCard from '../../components/layout/AuthCard';
@@ -15,16 +15,22 @@ import axiosInstance from '../../api/axiosInstance';
 const Register = () => {
   const [loading, setLoading] = useState(false);
   const { control, handleSubmit, reset } = useForm({
+    defaultValues: {
+      username: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
     resolver: yupResolver(registerSchema),
   });
 
   const onSubmit = async (data) => {
     setLoading(true);
-    console.log(data);
+    // console.log(data);
 
     try {
-      const response = await axiosInstance.post(REGISTER_ENDPOINT, data);
-      console.log('new', response);
+      const response = await axiosInstance.post(endpoints.AUTH.REGISTER_ENDPOINT, data);
+      // console.log('new', response);
       showSuccess(response.data.message);
       reset();
     } catch (err) {
@@ -40,8 +46,15 @@ const Register = () => {
         <TextInput name="username" label="Username" control={control} />
         <TextInput name="email" label="Email" control={control} />
         <PasswordInput name="password" label="Password" control={control} />
+        <PasswordInput name="confirmPassword" label="Confirm Password" control={control} />
         <SubmitButton label="Register" loading={loading} />
       </form>
+      <div className="text-center mt-4 text-sm">
+        Already have an account?{' '}
+        <Link to="/login" className="text-blue-600 hover:underline">
+          Login
+        </Link>
+      </div>
     </AuthCard>
   );
 };

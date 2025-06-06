@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from '../../api/axiosInstance';
-import { ACTIVATE_ENDPOINT } from '../../api/endpoints';
+import { endpoints } from '../../api/endpoints';
 import { showSuccess, showError } from '../../utils/toast';
 
 const ActivateAccount = () => {
@@ -12,10 +12,10 @@ const ActivateAccount = () => {
   useEffect(() => {
     const activate = async () => {
       try {
-        const res = await axios.get(`${ACTIVATE_ENDPOINT}/${token}`);
+        const res = await axios.get(`${endpoints.AUTH.ACTIVATE_ENDPOINT}/${token}`);
         showSuccess(res.data.message);
         setTimeout(() => {
-          navigate('/dashboard');
+          navigate('/login');
         }, 1500);
       } catch (err) {
         showError(err?.response?.data?.message || 'Activation failed');

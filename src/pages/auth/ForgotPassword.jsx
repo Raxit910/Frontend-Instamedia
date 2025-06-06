@@ -3,7 +3,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useState } from 'react';
 import axios from '../../api/axiosInstance';
-import { FORGOT_PASSWORD_ENDPOINT } from '../../api/endpoints';
+import { endpoints } from '../../api/endpoints';
 import { showSuccess, showError } from '../../utils/toast';
 
 import AuthCard from '../../components/layout/AuthCard';
@@ -15,13 +15,18 @@ const schema = yup.object().shape({
 });
 
 const ForgotPassword = () => {
-  const { control, handleSubmit } = useForm({ resolver: yupResolver(schema) });
+  const { control, handleSubmit } = useForm({
+    defaultValues: {
+      email: '',
+    },
+    resolver: yupResolver(schema),
+  });
   const [loading, setLoading] = useState(false);
 
   const onSubmit = async (data) => {
     setLoading(true);
     try {
-      const res = await axios.post(FORGOT_PASSWORD_ENDPOINT, data);
+      const res = await axios.post(endpoints.AUTH.FORGOT_PASSWORD_ENDPOINT, data);
       showSuccess(res.data.message);
     } catch (err) {
       showError(err?.response?.data?.message || 'Something went wrong');

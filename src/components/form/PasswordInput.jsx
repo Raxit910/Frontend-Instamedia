@@ -12,26 +12,27 @@ const PasswordInput = ({ name, label, control }) => {
       control={control}
       rules={{ required: `${label} is required` }}
       render={({ field, fieldState: { error } }) => (
-        <TextField
-          {...field}
-          label={label}
-          type={showPassword ? 'text' : 'password'}
-          fullWidth
-          size="small"
-          variant="outlined"
-          error={!!error}
-          helperText={error?.message}
-          className="mb-4"
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
-                  {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
+        <div className="mt-4">
+          <TextField
+            {...field}
+            label={label}
+            type={showPassword ? 'text' : 'password'}
+            fullWidth
+            size="small"
+            variant="outlined"
+            error={!!error}
+            helperText={error?.message}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
+                    {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+        </div>
       )}
     />
   );
