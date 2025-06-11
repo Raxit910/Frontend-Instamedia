@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (userData) => {
     // Set session flag on successful login
     sessionStorage.setItem('hasTriedLogin', 'true');
-    console.log(userData);
+    // console.log(userData);
     setUser(userData);
   };
 

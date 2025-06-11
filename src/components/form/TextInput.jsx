@@ -1,7 +1,15 @@
 import { TextField } from '@mui/material';
 import { Controller } from 'react-hook-form';
 
-const TextInput = ({ name, label, control, type = 'text', required = false }) => {
+const TextInput = ({
+  name,
+  label,
+  control,
+  type = 'text',
+  required = false,
+  multiline = false,
+  rows,
+}) => {
   return (
     <Controller
       name={name}
@@ -16,6 +24,8 @@ const TextInput = ({ name, label, control, type = 'text', required = false }) =>
             fullWidth
             size="small"
             variant="outlined"
+            multiline={multiline}
+            rows={rows}
             error={!!error}
             helperText={error?.message}
           />

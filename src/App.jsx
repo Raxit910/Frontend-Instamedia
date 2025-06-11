@@ -1,34 +1,10 @@
-// import { BrowserRouter, Routes, Route } from 'react-router-dom';
-// import Register from './pages/auth/Register';
-// import Login from './pages/auth/Login';
-// import ForgotPassword from './pages/auth/ForgotPassword';
-// import ResetPassword from './pages/auth/ResetPassword';
-// import LandingPage from './pages/LandingPage';
-// import ActivateAccount from './pages/auth/ActivateAccount';
-
-// const App = () => {
-//   return (
-//     <BrowserRouter>
-//       <Routes>
-//         <Route path="/" element={<LandingPage />} />
-//         <Route path="/register" element={<Register />} />
-//         <Route path="/login" element={<Login />} />
-//         <Route path="/activate/:token" element={<ActivateAccount />} />
-//         <Route path="/forgot-password" element={<ForgotPassword />} />
-//         <Route path="/reset-password/:token" element={<ResetPassword />} />
-//       </Routes>
-//     </BrowserRouter>
-//   );
-// };
-
-// export default App;
-
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { Toaster } from 'react-hot-toast';
 import { AuthProvider, useAuth } from './hooks/useAuth';
 import theme from './theme/muiTheme';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 // Pages
 import LandingPage from './pages/LandingPage';
@@ -40,6 +16,7 @@ import ActivateAccount from './pages/auth/ActivateAccount';
 import Dashboard from './pages/Dashboard';
 import UserProfilePage from './pages/user/UserProfilePage';
 import PreviewProfile from './pages/user/PreviewProfile';
+import NotFoundPage from './pages/NotFoundPage';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -140,10 +117,9 @@ function App() {
                 }
               />
 
-              {/* Redirect any unknown route */}
-              <Route path="*" element={<Navigate to="/" />} />
+              {/* 404 Not Found Route */}
+              <Route path="*" element={<NotFoundPage />} />
             </Routes>
-            <Toaster position="top-right" />
           </div>
         </AuthProvider>
       </Router>

@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import { VALIDATION_MESSAGES } from '../utils/constants';
+import { VALIDATION_MESSAGES } from '../constants/constants';
 
 export const profileUpdateSchema = yup.object({
   username: yup

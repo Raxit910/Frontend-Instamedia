@@ -8,9 +8,7 @@ const Messages = () => {
       </Typography>
       <Card>
         <CardContent>
-          <Typography color="text.secondary">
-            Messages functionality will be implemented here.
-          </Typography>
+          <Typography color="text.secondary">Messages functionality is coming soon!</Typography>
         </CardContent>
       </Card>
     </Box>

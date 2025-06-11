@@ -8,6 +8,7 @@ import Modal from '../common/Modal';
 import { userApi } from '../../api/userApi';
 import { useAuth } from '../../hooks/useAuth';
 import { showSuccess, showError } from '../../utils/toast';
+import TextInput from '../form/TextInput';
 
 const schema = yup.object({
   username: yup
@@ -25,9 +26,10 @@ const EditProfileModal = ({ open, onClose, profile }) => {
   const [avatarPreview, setAvatarPreview] = useState(profile?.avatarUrl || '');
 
   const {
-    register,
+    // register,
     handleSubmit,
-    formState: { errors },
+    control,
+    // formState: { errors },
     // reset
   } = useForm({
     resolver: yupResolver(schema),
@@ -101,24 +103,10 @@ const EditProfileModal = ({ open, onClose, profile }) => {
           </Box>
 
           {/* Username Field */}
-          <TextField
-            {...register('username')}
-            label="Username"
-            error={!!errors.username}
-            helperText={errors.username?.message}
-            fullWidth
-          />
+          <TextInput name="username" label="Username" control={control} required={true} />
 
           {/* Bio Field */}
-          <TextField
-            {...register('bio')}
-            label="Bio"
-            multiline
-            rows={4}
-            error={!!errors.bio}
-            helperText={errors.bio?.message}
-            fullWidth
-          />
+          <TextInput name="bio" label="Bio" control={control} multiline rows={4} />
 
           {/* Action Buttons */}
           <Box display="flex" gap={2} justifyContent="flex-end">

@@ -18,4 +18,26 @@ export const endpoints = {
     SEARCH: '/users/search',
     PREVIEW_PROFILE: '/users/preview',
   },
+  POST: {
+    CREATE_POST: '/posts/create',
+    ALL_POST: '/posts/user',
+    DELETE_POST: '/posts',
+  },
+  FEED: {
+    HOME_FEED: '/feed/home-feed',
+    FOLLOWED_FEED: '/feed/followed-feed',
+  },
+  LIKE: {
+    TOGGLE_LIKE: '/likes',
+    LIKE_USER_LIST: 'likes',
+  },
+  COMMENT: {
+    GET_COMMENTS: '/comments',
+    CREATE_COMMENT: '/comments',
+    DELETE_COMMENT: '/comments',
+  },
+  SAVE_POST: {
+    TOGGLE_SAVE_POST: '/saved-posts',
+    GET_SAVED_POST: '/saved-posts',
+  },
 };

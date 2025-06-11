@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 
 const LandingPage = () => {
-  console.log('Showing from landing page.');
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-600 to-red-500 flex flex-col justify-between text-white">
       {/* Navbar */}

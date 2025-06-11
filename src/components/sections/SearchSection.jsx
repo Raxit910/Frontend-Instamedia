@@ -109,7 +109,7 @@ const SearchSection = () => {
   };
 
   return (
-    <Box sx={{ maxWidth: 800, mx: 'auto', p: 2 }}>
+    <Box sx={{ mx: 'auto' }}>
       <Typography variant="h5" gutterBottom sx={{ mb: 3, fontWeight: 600 }}>
         Find Friends
       </Typography>

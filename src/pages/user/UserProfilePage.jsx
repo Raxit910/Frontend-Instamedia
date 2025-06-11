@@ -6,12 +6,13 @@ import FollowersModal from '../../components/profile/FollowersModal';
 import { useUserProfile } from '../../hooks/useUserProfile';
 import { useAuth } from '../../hooks/useAuth';
 import { useParams } from 'react-router-dom';
-import Header from '../../components/layout/Header'; // import Header here
+import Header from '../../components/layout/Header';
+import UserPosts from '../../components/profile/UserPosts';
 
 const UserProfilePage = () => {
   const { username } = useParams();
   const { user } = useAuth();
-  const { profile, loading, toggleFollow } = useUserProfile(username);
+  const { profile, posts, loading, toggleFollow } = useUserProfile(username);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [followersModalOpen, setFollowersModalOpen] = useState(false);
   const [followingModalOpen, setFollowingModalOpen] = useState(false);
@@ -135,6 +136,9 @@ const UserProfilePage = () => {
               </Typography>
             </Grid>
           </Grid>
+        </Box>
+        <Box mt={4}>
+          <UserPosts posts={posts} isOwnProfile={isOwnProfile} />
         </Box>
       </Box>
       {/* Modals */}

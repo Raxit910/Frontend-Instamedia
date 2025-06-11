@@ -1,27 +1,50 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Avatar, Typography, Button, Box, CircularProgress, Divider, Grid } from '@mui/material';
-import { LuUserPlus } from 'react-icons/lu';
 import { userApi } from '../../api/userApi';
 import { showSuccess, showError } from '../../utils/toast';
 import Header from '../../components/layout/Header';
 import FollowersModal from '../../components/profile/FollowersModal';
 import { PersonAdd, PersonRemove } from '@mui/icons-material';
+import UserPosts from '../../components/profile/UserPosts';
+import { postApi } from '../../api/postApi';
 
 const PreviewProfile = () => {
   const { username } = useParams();
   const [user, setUser] = useState(null);
+  const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [followersModalOpen, setFollowersModalOpen] = useState(false);
   const [followingModalOpen, setFollowingModalOpen] = useState(false);
   const [isTogglingFollow, setIsTogglingFollow] = useState(false);
+  const navigate = useNavigate();
 
   const fetchProfile = async () => {
+    setLoading(true);
+    setUser(null);
+    setPosts([]);
     try {
       const res = await userApi.getUserPreview(username);
       setUser(res.data.user);
-    } catch {
-      showError('Failed to load profile');
+
+      // Fetch posts only if profile exists and was successfully fetched
+      try {
+        const resPosts = await postApi.getPostByUsername(username);
+        setPosts(resPosts.data.posts);
+      } catch (postErr) {
+        console.error('Failed to load posts:', postErr);
+        showError('Failed to load posts');
+        setPosts([]);
+      }
+    } catch (err) {
+      if (err.response && err.response.status === 404) {
+        console.log(`Profile for ${username} not found. Redirecting to 404.`);
+        navigate('/404', { replace: true }); // Redirect to 404 page
+      } else {
+        // Handle other errors (e.g., network issues, server errors)
+        console.log(err.response?.data?.message || 'Failed to fetch profile');
+        showError('Failed to load user profile. Please try again.');
+      }
     } finally {
       setLoading(false);
     }
@@ -29,7 +52,7 @@ const PreviewProfile = () => {
 
   useEffect(() => {
     fetchProfile();
-  }, [username]);
+  }, [username, navigate]);
 
   const handleToggleFollow = async () => {
     setIsTogglingFollow(true);
@@ -89,21 +112,21 @@ const PreviewProfile = () => {
               <Avatar src={user.avatarUrl} sx={{ width: 120, height: 120, mb: 2 }} />
               <Button
                 variant={user.isFollowing ? 'outlined' : 'contained'}
-                startIcon={<LuUserPlus size={16} />}
-                // onClick={toggleFollow}
-                onClick={handleToggleFollow}
-                // disabled={isTogglingFollow}
-                fullWidth
                 color={user.isFollowing ? 'inherit' : 'primary'}
+                startIcon={
+                  isTogglingFollow ? (
+                    <CircularProgress size={16} />
+                  ) : user.isFollowing ? (
+                    <PersonRemove />
+                  ) : (
+                    <PersonAdd />
+                  )
+                }
+                onClick={handleToggleFollow}
+                disabled={isTogglingFollow}
+                fullWidth
               >
-                {/* {user.isFollowing ? 'Following' : 'Follow'} */}
-                {isTogglingFollow ? (
-                  <CircularProgress size={20} />
-                ) : user.isFollowing ? (
-                  <PersonRemove />
-                ) : (
-                  <PersonAdd />
-                )}
+                {user.isFollowing ? 'Following' : 'Follow'}
               </Button>
             </Grid>
 
@@ -160,6 +183,9 @@ const PreviewProfile = () => {
               </Typography>
             </Grid>
           </Grid>
+        </Box>
+        <Box mt={4}>
+          <UserPosts posts={posts} />
         </Box>
       </Box>
       <FollowersModal

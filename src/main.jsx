@@ -10,7 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ThemeProvider theme={muiTheme}>
-      <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
+      <ToastContainer position="top-right" autoClose={1200} hideProgressBar />
       <App />
     </ThemeProvider>
   </StrictMode>
