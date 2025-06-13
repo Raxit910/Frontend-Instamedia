@@ -39,7 +39,7 @@ const Login = () => {
 
       const user = res.data.data.user;
 
-      // 🔄 Set user in context (no token involved)
+      // Set user in context (no token involved)
       login(user);
 
       // Navigate to protected route after login

@@ -1,23 +1,14 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-import { TextField, Button, Box, Avatar, IconButton, Typography } from '@mui/material';
+import { Button, Box, Avatar, IconButton, Typography } from '@mui/material';
 import { LuCamera } from 'react-icons/lu';
 import Modal from '../common/Modal';
 import { userApi } from '../../api/userApi';
 import { useAuth } from '../../hooks/useAuth';
 import { showSuccess, showError } from '../../utils/toast';
 import TextInput from '../form/TextInput';
-
-const schema = yup.object({
-  username: yup
-    .string()
-    .min(3, 'Username must be at least 3 characters')
-    .max(30, 'Username cannot exceed 30 characters')
-    .matches(/^[a-zA-Z0-9_]+$/, 'Username can only contain letters, numbers, and underscores'),
-  bio: yup.string().max(500, 'Bio cannot exceed 500 characters'),
-});
+import { profileUpdateSchema } from '../../validations/profileSchema';
 
 const EditProfileModal = ({ open, onClose, profile }) => {
   const { updateUser } = useAuth();
@@ -25,14 +16,8 @@ const EditProfileModal = ({ open, onClose, profile }) => {
   const [avatarFile, setAvatarFile] = useState(null);
   const [avatarPreview, setAvatarPreview] = useState(profile?.avatarUrl || '');
 
-  const {
-    // register,
-    handleSubmit,
-    control,
-    // formState: { errors },
-    // reset
-  } = useForm({
-    resolver: yupResolver(schema),
+  const { handleSubmit, control } = useForm({
+    resolver: yupResolver(profileUpdateSchema),
     defaultValues: {
       username: profile?.username || '',
       bio: profile?.bio || '',

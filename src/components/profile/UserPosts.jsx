@@ -1,14 +1,5 @@
 import { useState } from 'react';
-import {
-  Box,
-  Typography,
-  IconButton,
-  Card,
-  CardContent,
-  CardMedia,
-  Button,
-  Grid,
-} from '@mui/material';
+import { Box, Typography, IconButton, Card, CardContent, Button, Grid } from '@mui/material';
 import { AiOutlineDelete } from 'react-icons/ai';
 import Slider from 'react-slick';
 import LikesModal from '../posts/LikesModal';

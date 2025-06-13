@@ -1,12 +1,4 @@
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Button,
-  Box,
-  Typography,
-} from '@mui/material';
+import { Button, Box, Typography } from '@mui/material';
 import { postApi } from '../../api/postApi';
 import { showError, showSuccess } from '../../utils/toast';
 import Modal from '../common/Modal';

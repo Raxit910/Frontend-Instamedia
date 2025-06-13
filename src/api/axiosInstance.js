@@ -10,15 +10,6 @@ const axiosInstance = axios.create({
   },
 });
 
-// Optional: Add interceptors for auth tokens or error logging
-axiosInstance.interceptors.request.use(
-  (config) => {
-    //
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
-
 let isRefreshing = false;
 let refreshSubscribers = [];
 

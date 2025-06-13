@@ -30,7 +30,6 @@ const CreatePost = () => {
   const [images, setImages] = useState([]);
   const [croppingImage, setCroppingImage] = useState(null);
   const [cropData, setCropData] = useState({ zoom: 1, crop: { x: 0, y: 0 }, croppedPixels: null });
-  // const [croppedImageBlob, setCroppedImageBlob] = useState(null);
   const [croppingIndex, setCroppingIndex] = useState(null);
   const [loading, setLoading] = useState(false);
 

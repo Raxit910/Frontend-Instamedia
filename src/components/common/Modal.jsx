@@ -8,11 +8,9 @@ const Modal = ({ open, onClose, title, children, maxWidth = 'sm', fullWidth = tr
       onClose={onClose}
       maxWidth={maxWidth}
       fullWidth={fullWidth}
-      PaperProps={{
-        sx: {
-          borderRadius: 2,
-          bgcolor: 'background.paper',
-        },
+      sx={{
+        borderRadius: 2,
+        bgcolor: 'background.paper',
       }}
     >
       {title && (
